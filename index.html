@@ -2,6 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script>
+  (function(){
+    try{
+      var t = localStorage.getItem('snate-theme');
+      if(!t){ t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+      document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ing. Juan Snate — Diseño y desarrollo de páginas web</title>
 <meta name="description" content="Diseño y desarrollo de páginas web profesionales: tiendas online, sitios corporativos, landing pages y portafolios. Ing. Juan Snate.">
@@ -33,6 +42,23 @@
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+  html[data-theme="dark"]{
+    --bg:#0F1620;
+    --bg-alt:#131C27;
+    --card:#182230;
+    --ink:#EDE7DA;
+    --ink-soft:#ABA394;
+    --slate:#8791A0;
+    --line:#263140;
+    --line-dark:#34414f;
+  }
+  html[data-theme="dark"] header{background:rgba(15,22,32,0.7);}
+  html[data-theme="dark"] header.scrolled{background:rgba(15,22,32,0.92);}
+  html[data-theme="dark"] .btn-ghost{border-color:#34414f;}
+  html[data-theme="dark"] .filter-btn{border-color:#34414f;}
+  html[data-theme="dark"] .skill-tags span{background:var(--card);}
+  html{transition:background-color .4s ease;}
+  body{transition:background-color .4s ease, color .4s ease;}
   body{
     margin:0;
     background:var(--bg);
@@ -98,6 +124,13 @@
     background:rgba(250,247,242,0.92);
     border-bottom:1px solid var(--line);
   }
+  .scroll-progress{
+    position:absolute; top:0; left:0; height:2px;
+    width:0%;
+    background:linear-gradient(90deg, var(--brass-deep), var(--brass-light));
+    z-index:5;
+    transition:width .1s linear;
+  }
   nav.wrap{
     display:flex; align-items:center; justify-content:space-between;
     height:82px;
@@ -143,6 +176,20 @@
   }
   .nav-cta:hover{background:var(--brass-deep); border-color:var(--brass-deep); transform:translateY(-1px);}
   .nav-cta svg{width:15px; height:15px; flex-shrink:0;}
+
+  .theme-toggle{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid #C9BFA9; background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-soft); flex-shrink:0;
+    transition:border-color .3s ease, color .3s ease, transform .3s ease;
+  }
+  html[data-theme="dark"] .theme-toggle{border-color:#34414f;}
+  .theme-toggle:hover{border-color:var(--brass-deep); color:var(--brass-deep); transform:rotate(-12deg);}
+  .theme-toggle svg{width:17px; height:17px;}
+  .theme-toggle .icon-moon{display:none;}
+  html[data-theme="dark"] .theme-toggle .icon-sun{display:none;}
+  html[data-theme="dark"] .theme-toggle .icon-moon{display:block;}
 
   .burger{
     display:none; flex-direction:column; gap:5px;
@@ -368,6 +415,137 @@
   }
   @media (prefers-reduced-motion: reduce){
     .marquee-track{animation:none;}
+  }
+
+  /* ---------- ANTES / DESPUES ---------- */
+  .compare{max-width:900px; margin:0 auto;}
+  .compare-frame{
+    position:relative;
+    aspect-ratio:16/10.5;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 40px 80px -30px rgba(19,30,41,0.35);
+    border:1px solid var(--line);
+    user-select:none;
+    background:#EDE7DA;
+  }
+  .compare-layer{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    padding:5%;
+  }
+  .compare-before{
+    background:linear-gradient(160deg,#DCD7CC,#C7C2B4);
+  }
+  .compare-after{
+    background:linear-gradient(160deg,#FBF8F2,#F1EAD9);
+    clip-path:inset(0 calc(100% - 50%) 0 0);
+    will-change:clip-path;
+  }
+  .badge-before, .badge-after{
+    position:absolute; top:16px; left:16px; z-index:2;
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.08em;
+    text-transform:uppercase; padding:6px 12px; border-radius:20px;
+  }
+  .badge-before{background:#4B4739; color:#EDE7DA;}
+  .badge-after{background:var(--navy); color:var(--brass-light); border:1px solid var(--brass);}
+
+  .bad-page{
+    width:100%; max-width:420px; background:#EFEDE6; border:2px solid #8f8a78;
+    padding:14px; font-family:Georgia, 'Times New Roman', serif; color:#2b2a26;
+    box-shadow:2px 3px 0 #8f8a78;
+  }
+  .bad-topbar{
+    font-family:Arial, sans-serif; font-size:9px; color:#3b5998; margin-bottom:8px;
+    text-decoration:underline; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .bad-header{
+    font-family:Arial, sans-serif; font-weight:700; font-size:15px; text-align:center;
+    background:#c0392b; color:#fff; padding:6px; margin-bottom:10px; letter-spacing:0.02em;
+  }
+  .bad-row{display:flex; gap:10px; margin-bottom:10px;}
+  .bad-photo{
+    width:56px; height:56px; flex-shrink:0;
+    background:repeating-linear-gradient(45deg,#c9c4b4,#c9c4b4 5px,#b8b3a1 5px,#b8b3a1 10px);
+    border:1px solid #8f8a78;
+  }
+  .bad-lines{display:flex; flex-direction:column; gap:6px; justify-content:center; flex:1;}
+  .bad-lines span{display:block; height:6px; background:#b8b3a1; width:85%;}
+  .bad-banner{
+    font-family:Arial, sans-serif; font-weight:700; font-size:10.5px; text-align:center;
+    background:#f1c40f; color:#3b2f00; padding:6px; margin-bottom:10px;
+  }
+  .bad-foot{
+    font-family:Arial, sans-serif; font-size:9.5px; color:#5b5748; margin-top:8px;
+    border-top:1px dashed #8f8a78; padding-top:8px;
+  }
+
+  .compare-handle{
+    position:absolute; top:0; bottom:0;
+    width:2px; background:var(--brass);
+    transform:translateX(-50%);
+    z-index:3; pointer-events:none;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.4);
+  }
+  .compare-handle-grip{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:42px; height:42px; border-radius:50%;
+    background:var(--navy); color:var(--brass-light);
+    border:2px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px -8px rgba(19,30,41,0.5);
+  }
+  .compare-handle-grip svg{width:18px; height:18px;}
+  .compare-range{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    margin:0; opacity:0; cursor:col-resize;
+    -webkit-appearance:none; appearance:none;
+    z-index:4;
+  }
+  .compare-range::-webkit-slider-thumb{-webkit-appearance:none; width:100%; height:100%;}
+  .compare-range::-moz-range-thumb{width:1px; height:100%; opacity:0;}
+
+  @media (max-width:600px){
+    .compare-frame{aspect-ratio:4/5;}
+    .bad-page{padding:11px;}
+    .bad-header{font-size:12px;}
+  }
+
+  /* ---------- CUSTOM CURSOR (desktop only) ---------- */
+  body.has-custom-cursor{cursor:none;}
+  body.has-custom-cursor a, body.has-custom-cursor button{cursor:none;}
+  .cursor-dot, .cursor-ring{
+    position:fixed; top:0; left:0; z-index:2000;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    will-change:transform;
+  }
+  .cursor-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--brass-deep);
+    transition:opacity .2s ease;
+  }
+  .cursor-ring{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    transition:width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1), background .3s ease, opacity .2s ease;
+    opacity:0.85;
+  }
+  .cursor-ring .cursor-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.05em;
+    color:var(--brass-light); opacity:0; transition:opacity .25s ease;
+    white-space:nowrap;
+  }
+  .cursor-ring.is-hover{
+    width:64px; height:64px;
+    background:var(--navy);
+    border-color:var(--brass);
+  }
+  .cursor-ring.is-hover .cursor-label{opacity:1;}
+  @media (max-width:768px), (pointer:coarse){
+    .cursor-dot, .cursor-ring{display:none !important;}
   }
 
   /* ---------- SECTION HEADS ---------- */
@@ -620,6 +798,7 @@
   @media (max-width:768px){
     .nav-links{display:none;}
     .nav-cta.desktop-only{display:none;}
+    .theme-toggle.desktop-only{display:none;}
     .burger{display:flex;}
     .mobile-panel, .scrim{display:flex;}
     .hero{padding:150px 0 90px;}
@@ -643,6 +822,7 @@
 <body>
 
 <header id="siteHeader">
+  <div class="scroll-progress" id="scrollProgress"></div>
   <nav class="wrap">
     <a href="#inicio" class="brand">
       <img src="js2-icon-dark.png" alt="Juan Snate" class="brand-mark-img">
@@ -661,6 +841,10 @@
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.4a.6.6 0 0 0 0-.5c-.1-.1-.7-1.6-.9-2.2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 6 9.6a5.9 5.9 0 0 0 1.3 3.2 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.1 4.1 0 0 0 1.9.1 3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2z"/></svg>
       Escríbeme
     </a>
+    <button class="theme-toggle desktop-only" id="themeToggle" aria-label="Cambiar tema claro u oscuro">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.9a8.6 8.6 0 1 1-9.5-13 1 1 0 0 1 1.2 1.3 6.6 6.6 0 0 0 8 8.9 1 1 0 0 1 1.2 1.2 8.6 8.6 0 0 1-.9 1.6z"/></svg>
+    </button>
     <button class="burger" id="burger" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </button>
@@ -670,6 +854,10 @@
 <div class="scrim" id="scrim"></div>
 <div class="mobile-panel" id="mobilePanel">
   <img src="js2-icon-light.png" alt="Juan Snate" class="mobile-brand-img">
+  <button class="theme-toggle" id="themeToggleMobile" aria-label="Cambiar tema claro u oscuro" style="position:absolute; top:30px; right:32px; border-color:rgba(217,185,139,0.4); color:#EDE7DA;">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.9a8.6 8.6 0 1 1-9.5-13 1 1 0 0 1 1.2 1.3 6.6 6.6 0 0 0 8 8.9 1 1 0 0 1 1.2 1.2 8.6 8.6 0 0 1-.9 1.6z"/></svg>
+  </button>
   <a href="#inicio" class="nav-link">Inicio</a>
   <a href="#catalogo" class="nav-link">Catálogo</a>
   <a href="#quien-soy" class="nav-link">Quién soy</a>
@@ -928,6 +1116,58 @@
   </div>
 </section>
 
+<!-- ANTES / DESPUES -->
+<section class="section-pad" id="antes-despues">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">La diferencia</span>
+      <h2>Lo que cambia cuando tu negocio sí tiene presencia web</h2>
+      <p>Arrastra el control para comparar. La misma idea de negocio, mostrada de dos formas muy distintas.</p>
+    </div>
+
+    <div class="compare reveal">
+      <div class="compare-frame">
+        <div class="compare-layer compare-before">
+          <div class="badge-before">Sin página web</div>
+          <div class="bad-page">
+            <div class="bad-topbar">facebook.com/mi-negocio-sincelejo-2019</div>
+            <div class="bad-header">MI NEGOCIO ¡BIENVENIDOS!!</div>
+            <div class="bad-row">
+              <div class="bad-photo"></div>
+              <div class="bad-lines">
+                <span></span><span></span><span style="width:40%"></span>
+              </div>
+            </div>
+            <div class="bad-banner">📢 HORARIOS: Lun-Sab 8am-6pm 📢 LLAMAR AL CEL</div>
+            <div class="bad-lines"><span></span><span style="width:60%"></span></div>
+            <div class="bad-foot">Escríbenos a nuestra página de Facebook o pasa por el local</div>
+          </div>
+        </div>
+
+        <div class="compare-layer compare-after" id="compareAfter">
+          <div class="badge-after">Con Ing. Juan Snate</div>
+          <div class="mock-window" style="max-width:100%; transform:none; box-shadow:none;">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">tunegocio.com</div></div>
+            <div class="mock-body">
+              <div class="mock-hero-block"></div>
+              <div class="mock-lines"><span></span><span></span><span></span></div>
+              <div class="mock-grid"><div></div><div></div><div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="compare-handle" id="compareHandle" style="left:50%">
+          <div class="compare-handle-grip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 5l-5 7 5 7M16 5l5 7-5 7"/></svg>
+          </div>
+        </div>
+
+        <input type="range" min="0" max="100" value="50" class="compare-range" id="compareRange" aria-label="Comparar antes y después">
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- QUIEN SOY -->
 <section id="quien-soy">
   <div class="wrap">
@@ -1017,8 +1257,39 @@
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.4a.6.6 0 0 0 0-.5c-.1-.1-.7-1.6-.9-2.2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 6 9.6a5.9 5.9 0 0 0 1.3 3.2 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.1 4.1 0 0 0 1.9.1 3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2z"/></svg>
 </a>
 
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"><span class="cursor-label" id="cursorLabel"></span></div>
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Before / After compare slider
+  const compareRange = document.getElementById('compareRange');
+  const compareAfter = document.getElementById('compareAfter');
+  const compareHandle = document.getElementById('compareHandle');
+  if(compareRange && compareAfter && compareHandle){
+    const updateCompare = (val) => {
+      compareAfter.style.clipPath = `inset(0 ${100 - val}% 0 0)`;
+      compareHandle.style.left = val + '%';
+    };
+    compareRange.addEventListener('input', (e) => updateCompare(e.target.value));
+    updateCompare(compareRange.value);
+  }
+
+  // Theme toggle
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+    try{ localStorage.setItem('snate-theme', t); }catch(e){}
+  }
+  function currentTheme(){
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+  [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].forEach(btn => {
+    if(!btn) return;
+    btn.addEventListener('click', () => {
+      applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+    });
+  });
 
   // Header shrink + active link on scroll
   const header = document.getElementById('siteHeader');
@@ -1036,6 +1307,11 @@
     navLinks.forEach(a => {
       a.classList.toggle('active', a.getAttribute('href') === '#' + current);
     });
+
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    const bar = document.getElementById('scrollProgress');
+    if(bar) bar.style.width = pct + '%';
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
@@ -1123,6 +1399,48 @@
     });
     stage.addEventListener('mouseleave', () => {
       mockWindow.style.transform = 'rotateY(-10deg) rotateX(4deg) rotate(-1deg)';
+    });
+  }
+
+  // Custom cursor + magnetic buttons — desktop with a real mouse only.
+  // Guarded so it never runs on touch devices; nothing here intercepts clicks/taps.
+  if(window.matchMedia('(pointer:fine)').matches && window.innerWidth > 768){
+    document.body.classList.add('has-custom-cursor');
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    const label = document.getElementById('cursorLabel');
+
+    let mx = window.innerWidth/2, my = window.innerHeight/2;
+    let rx = mx, ry = my;
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+    });
+    (function loop(){
+      rx += (mx - rx) * 0.16;
+      ry += (my - ry) * 0.16;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);
+    })();
+
+    document.querySelectorAll('.card').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.classList.add('is-hover'); label.textContent = el.classList.contains('is-real') ? 'Abrir' : 'Ver'; });
+      el.addEventListener('mouseleave', () => { ring.classList.remove('is-hover'); label.textContent = ''; });
+    });
+    document.querySelectorAll('.btn, .nav-cta, .wa-float, .theme-toggle, .contact-card').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('is-hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('is-hover'));
+    });
+
+    // Subtle magnetic pull on primary CTAs
+    document.querySelectorAll('.btn-primary, .wa-float').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const relX = e.clientX - (r.left + r.width/2);
+        const relY = e.clientY - (r.top + r.height/2);
+        btn.style.transform = `translate(${relX * 0.18}px, ${relY * 0.28}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
     });
   }
 </script>
