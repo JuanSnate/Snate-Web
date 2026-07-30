@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ing. Juan Snate — Diseño y desarrollo de páginas web</title>
+<meta name="description" content="Diseño y desarrollo de páginas web profesionales: tiendas online, sitios corporativos, landing pages y portafolios. Ing. Juan Snate.">
+<link rel="icon" type="image/png" href="js2-icon-dark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF7F2;
+    --bg-alt:#F1EBDF;
+    --card:#FFFFFF;
+    --ink:#191F27;
+    --ink-soft:#3C4652;
+    --slate:#68758a;
+    --navy:#131E29;
+    --navy-2:#1C3040;
+    --navy-3:#233B4E;
+    --brass:#AD8752;
+    --brass-light:#D9BA8B;
+    --brass-deep:#8C6A3B;
+    --line:#E4DDCd;
+    --line-dark:#2C4256;
+    --whatsapp:#3E7A5E;
+    --shadow: 0 30px 60px -30px rgba(19,30,41,0.35);
+    --radius: 4px;
+    --maxw: 1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    margin:0;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  p{margin:0; color:var(--ink-soft); line-height:1.65;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  ul{margin:0; padding:0; list-style:none;}
+  button{font-family:inherit; cursor:pointer;}
+
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--brass-deep);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{
+    content:"</>";
+    color:var(--brass);
+    font-weight:500;
+  }
+  section .eyebrow{margin-bottom:14px;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+
+  /* ---------- FOCUS STATES ---------- */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--brass);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    background:rgba(250,247,242,0.7);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid transparent;
+    transition:all .35s ease;
+  }
+  header.scrolled{
+    background:rgba(250,247,242,0.92);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:82px;
+    transition:height .35s ease;
+  }
+  header.scrolled nav.wrap{height:68px;}
+
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark-img{
+    width:40px; height:40px;
+    object-fit:contain;
+    flex-shrink:0;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .brand:hover .brand-mark-img{transform:rotate(-8deg) scale(1.06);}
+  .brand-text{display:flex; flex-direction:column; line-height:1.15;}
+  .brand-text strong{font-family:'Fraunces',serif; font-size:16.5px; font-weight:600; color:var(--ink);}
+  .brand-text span{font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.08em; color:var(--slate); text-transform:uppercase;}
+
+  .nav-links{display:flex; align-items:center; gap:38px;}
+  .nav-links a{
+    font-size:14.5px; font-weight:500; color:var(--ink-soft);
+    position:relative; padding:4px 0;
+    transition:color .25s ease;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-2px;
+    width:0; height:1px; background:var(--brass);
+    transition:width .3s ease;
+  }
+  .nav-links a:hover, .nav-links a.active{color:var(--ink);}
+  .nav-links a:hover::after, .nav-links a.active::after{width:100%;}
+
+  .nav-cta{
+    display:flex; align-items:center; gap:8px;
+    background:var(--navy);
+    color:#F3EFE6 !important;
+    padding:10px 20px;
+    border-radius:2px;
+    font-size:13.5px; font-weight:500;
+    border:1px solid var(--navy);
+    transition:background .3s ease, transform .2s ease, border-color .3s ease;
+  }
+  .nav-cta:hover{background:var(--brass-deep); border-color:var(--brass-deep); transform:translateY(-1px);}
+  .nav-cta svg{width:15px; height:15px; flex-shrink:0;}
+
+  .burger{
+    display:none; flex-direction:column; gap:5px;
+    background:none; border:none; padding:6px;
+  }
+  .burger span{width:24px; height:1.5px; background:var(--ink); transition:all .3s ease;}
+  .burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+  .mobile-panel{
+    display:none;
+    position:fixed; top:0; right:0; bottom:0; width:min(78vw, 340px);
+    background:var(--navy); z-index:1200;
+    padding:100px 32px 40px;
+    transform:translateX(100%);
+    transition:transform .4s cubic-bezier(.65,0,.35,1);
+    flex-direction:column; gap:28px;
+  }
+  .mobile-panel.open{transform:translateX(0);}
+  .mobile-brand-img{width:44px; height:44px; object-fit:contain; position:absolute; top:34px; left:32px;}
+  .mobile-panel a{color:#EDE7DA; font-family:'Fraunces',serif; font-size:22px; font-weight:400;}
+  .mobile-panel .nav-cta{justify-content:center; margin-top:12px; border-color:var(--brass); background:transparent;}
+  .scrim{
+    display:none; position:fixed; inset:0; background:rgba(19,30,41,0.45); z-index:1100;
+    opacity:0; transition:opacity .35s ease;
+  }
+  .scrim.open{opacity:1;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:190px 0 120px;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(173,135,82,0.14), transparent 60%),
+      var(--bg);
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:64px;
+    align-items:center;
+  }
+  .hero-copy .eyebrow{margin-bottom:22px;}
+  .hero h1{
+    font-size:clamp(38px, 4.6vw, 62px);
+    line-height:1.05;
+    font-weight:500;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--brass-deep);
+    font-weight:400;
+  }
+  .hero p.lead{
+    margin-top:24px;
+    font-size:17.5px;
+    max-width:480px;
+    color:var(--ink-soft);
+  }
+  .hero-actions{
+    display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:15px 28px;
+    font-size:14.5px; font-weight:600;
+    border-radius:2px;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
+    white-space:nowrap;
+  }
+  .btn svg{width:17px; height:17px; flex-shrink:0; transition:transform .35s cubic-bezier(.2,.8,.2,1);}
+  .btn:hover svg{transform:rotate(-6deg) scale(1.1);}
+  .btn-primary{
+    background:var(--navy); color:#F3EFE6; border:1px solid var(--navy);
+  }
+  .btn-primary:hover{background:var(--brass-deep); border-color:var(--brass-deep); transform:translateY(-2px); box-shadow:var(--shadow);}
+  .btn-ghost{
+    background:transparent; color:var(--ink); border:1px solid var(--line-dark);
+    border-color:#C9BFA9;
+  }
+  .btn-ghost:hover{border-color:var(--brass-deep); color:var(--brass-deep); transform:translateY(-2px);}
+
+  .hero-stats{
+    display:flex; gap:40px; margin-top:56px; padding-top:32px; border-top:1px solid var(--line);
+    max-width:480px;
+  }
+  .hero-stats div strong{
+    display:block; font-family:'Fraunces',serif; font-size:26px; font-weight:600; color:var(--ink);
+  }
+  .hero-stats div span{
+    font-size:12.5px; color:var(--slate); letter-spacing:0.02em;
+  }
+
+  /* browser mockup */
+  .mock-stage{
+    perspective:1400px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    min-height:420px;
+  }
+  .mock-stage::before{
+    content:"";
+    position:absolute;
+    width:420px; height:420px;
+    background:radial-gradient(circle, rgba(173,135,82,0.22), rgba(173,135,82,0) 70%);
+    border-radius:50%;
+    z-index:1;
+    animation:driftGlow 10s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes driftGlow{
+    0%,100%{transform:translate(-6%,-4%) scale(1);}
+    50%{transform:translate(6%,5%) scale(1.12);}
+  }
+  .mock-float{
+    animation:idleFloat 6s ease-in-out infinite;
+  }
+  @keyframes idleFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+  }
+  .mock-window{
+    width:100%; max-width:440px;
+    background:#fff;
+    border-radius:8px;
+    box-shadow:0 50px 90px -25px rgba(19,30,41,0.4), 0 0 0 1px rgba(19,30,41,0.06);
+    transform:rotateY(-10deg) rotateX(4deg) rotate(-1deg);
+    transition:transform .15s ease-out;
+    position:relative;
+    z-index:3;
+  }
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(22px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .hero-anim{
+    opacity:0;
+    animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .mock-bar{
+    display:flex; align-items:center; gap:6px;
+    padding:12px 14px;
+    border-bottom:1px solid #ECE7DC;
+  }
+  .mock-dot{width:8px; height:8px; border-radius:50%; background:#E2D9C7;}
+  .mock-bar .mock-dot:nth-child(1){background:#E39A85;}
+  .mock-bar .mock-dot:nth-child(2){background:#E8CB8C;}
+  .mock-bar .mock-dot:nth-child(3){background:#9BC2A0;}
+  .mock-url{
+    margin-left:10px; flex:1; background:#F5F1E9; border-radius:20px;
+    font-family:'JetBrains Mono',monospace; font-size:9.5px; color:#8a8272;
+    padding:5px 12px;
+  }
+  .mock-body{padding:18px; background:linear-gradient(160deg,#fff, #FBF8F2);}
+  .mock-hero-block{
+    height:120px; border-radius:5px; margin-bottom:12px;
+    background:linear-gradient(135deg, var(--navy-2), var(--navy-3) 55%, var(--brass-deep));
+    position:relative; overflow:hidden;
+  }
+  .mock-hero-block::after{
+    content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(115deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 26px);
+  }
+  .mock-lines{display:flex; flex-direction:column; gap:7px; margin-bottom:14px;}
+  .mock-lines span{display:block; height:7px; border-radius:3px; background:#EDE7D9;}
+  .mock-lines span:nth-child(1){width:70%;}
+  .mock-lines span:nth-child(2){width:92%;}
+  .mock-lines span:nth-child(3){width:55%;}
+  .mock-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
+  .mock-grid div{
+    aspect-ratio:1; border-radius:4px;
+    background:linear-gradient(150deg, #F1EAD9, #E4DACB);
+  }
+  .mock-grid div:nth-child(2){background:linear-gradient(150deg, var(--brass-light), var(--brass));}
+
+  .float-card{
+    position:absolute; z-index:4;
+    background:#fff; border-radius:6px;
+    box-shadow:0 20px 40px -15px rgba(19,30,41,0.3);
+    padding:12px 16px;
+    display:flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft);
+    animation:floaty 5s ease-in-out infinite;
+  }
+  .float-card.a{top:8%; left:-6%;}
+  .float-card.b{bottom:10%; right:-8%; animation-delay:1.4s;}
+  .float-dot{width:8px; height:8px; border-radius:50%; background:#6FBF8B;}
+  @keyframes floaty{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    background:var(--navy);
+    overflow:hidden;
+    padding:16px 0;
+    border-top:1px solid rgba(217,185,139,0.25);
+    border-bottom:1px solid rgba(217,185,139,0.25);
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track{
+    display:flex;
+    width:max-content;
+    gap:14px;
+    animation:scrollMarquee 32s linear infinite;
+  }
+  .marquee-track span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.05em;
+    color:#B7AF9E;
+    white-space:nowrap;
+  }
+  .marquee-track span:nth-child(4n+1){color:var(--brass-light);}
+  @keyframes scrollMarquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none;}
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  .section-head{
+    max-width:640px; margin-bottom:56px;
+  }
+  .section-head h2{font-size:clamp(30px,3.4vw,44px); margin-top:10px;}
+  .section-head p{margin-top:16px; font-size:16px;}
+  .section-pad{padding:120px 0;}
+
+  /* ---------- CATALOGO ---------- */
+  #catalogo{background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+
+  .filters{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:44px;
+  }
+  .filter-btn{
+    background:transparent;
+    border:1px solid #CFC5AD;
+    color:var(--ink-soft);
+    padding:9px 18px;
+    border-radius:20px;
+    font-size:13px; font-weight:500;
+    transition:all .25s ease;
+  }
+  .filter-btn:hover{border-color:var(--brass-deep); color:var(--ink);}
+  .filter-btn.active{
+    background:var(--navy); border-color:var(--navy); color:#F3EFE6;
+  }
+
+  .grid-catalog{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:28px;
+  }
+  .card{
+    display:block;
+    background:var(--card);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 1px 0 var(--line);
+    border:1px solid var(--line);
+    transition:transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease;
+    opacity:0; transform:translateY(26px);
+  }
+  .card.visible{opacity:1; transform:translateY(0);}
+  .card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 34px 60px -24px rgba(19,30,41,0.28);
+  }
+  .card-media{
+    height:190px; position:relative; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .card-media .mock-window{max-width:100%; transform:none; box-shadow:0 20px 40px -18px rgba(19,30,41,0.35); transition:transform .5s ease;}
+  .card:hover .card-media .mock-window{transform:translateY(-6px) scale(1.02);}
+  .cat-real .card-media{background:linear-gradient(150deg,#EFE7D6,#DCCBA6); position:relative;}
+  .card.is-real{
+    border-color:var(--brass);
+    box-shadow:0 1px 0 var(--brass-light);
+    cursor:pointer;
+  }
+  .card.is-real:hover{box-shadow:0 34px 60px -24px rgba(140,106,59,0.4);}
+  .real-badge{
+    position:absolute; top:12px; left:12px; z-index:5;
+    background:var(--navy); color:var(--brass-light);
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em;
+    text-transform:uppercase; padding:6px 12px; border-radius:20px;
+    border:1px solid var(--brass);
+  }
+  .cat-tienda .card-media{background:linear-gradient(150deg,#F7EFE0,#EDE0C8);}
+  .cat-corporativo .card-media{background:linear-gradient(150deg,#EAF0EE,#D9E4E0);}
+  .cat-landing .card-media{background:linear-gradient(150deg,#F3E9E4,#E7D6CC);}
+  .cat-portafolio .card-media{background:linear-gradient(150deg,#E9EDF3,#D9E0EC);}
+
+  .card-body{padding:22px 24px 26px;}
+  .card-tag{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--brass-deep); margin-bottom:8px; display:block;
+  }
+  .card-body h3{font-size:19px; font-weight:600; margin-bottom:8px;}
+  .card-body p{font-size:14px;}
+  .card-feats{margin-top:14px; display:flex; flex-wrap:wrap; gap:6px;}
+  .card-feats span{
+    font-size:11px; color:var(--slate); background:var(--bg-alt);
+    border:1px solid var(--line); padding:4px 9px; border-radius:12px;
+  }
+
+  /* ---------- PROCESO ---------- */
+  .process{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    border-top:1px solid var(--line);
+  }
+  .process-step{
+    padding:36px 26px; border-right:1px solid var(--line);
+    position:relative;
+  }
+  .process-step:last-child{border-right:none;}
+  .process-num{
+    font-family:'JetBrains Mono',monospace; color:var(--brass); font-size:12px; letter-spacing:0.1em;
+  }
+  .process-step h4{font-size:17px; margin:10px 0 8px; font-weight:600;}
+  .process-step p{font-size:13.5px;}
+
+  /* ---------- QUIEN SOY ---------- */
+  #quien-soy{padding:130px 0;}
+  #quien-soy .wrap{
+    display:grid; grid-template-columns:0.85fr 1.15fr; gap:72px; align-items:start;
+  }
+  .profile-card{
+    background:var(--navy);
+    border-radius:8px;
+    padding:44px 34px;
+    color:#EDE7DA;
+    position:sticky; top:110px;
+  }
+  .profile-avatar{
+    width:84px; height:84px; border-radius:50%;
+    background:linear-gradient(150deg, rgba(217,185,139,0.16), rgba(140,106,59,0.28));
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:24px;
+    border:1px solid rgba(217,185,139,0.4);
+    padding:18px;
+  }
+  .profile-avatar img{width:100%; height:100%; object-fit:contain;}
+  .profile-card h3{color:#F3EFE6; font-size:22px; margin-bottom:4px;}
+  .profile-role{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--brass-light);
+    letter-spacing:0.06em; margin-bottom:22px; display:block;
+  }
+  .profile-line{
+    display:flex; justify-content:space-between; padding:12px 0;
+    border-top:1px solid rgba(237,231,218,0.12);
+    font-size:13px;
+  }
+  .profile-line span:first-child{color:#B7AF9E;}
+  .profile-line span:last-child{color:#EDE7DA; text-align:right;}
+
+  .bio p{font-size:16px; margin-bottom:18px;}
+  .bio p.lede{font-family:'Fraunces',serif; font-size:22px; color:var(--ink); line-height:1.4; font-weight:400;}
+  .skills-block{margin-top:36px;}
+  .skills-block h4{font-size:14px; text-transform:uppercase; letter-spacing:0.08em; font-family:'JetBrains Mono',monospace; color:var(--slate); font-weight:500; margin-bottom:16px;}
+  .skill-tags{display:flex; flex-wrap:wrap; gap:9px;}
+  .skill-tags span{
+    font-size:13px; padding:8px 15px; border-radius:2px;
+    border:1px solid var(--line); color:var(--ink-soft);
+    background:#fff;
+  }
+
+  /* ---------- CONTACT ---------- */
+  #contacto{
+    background:var(--navy);
+    color:#EDE7DA;
+    padding:130px 0;
+    position:relative;
+    overflow:hidden;
+  }
+  #contacto::before{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse 700px 400px at 15% 20%, rgba(173,135,82,0.16), transparent 60%);
+  }
+  #contacto .wrap{position:relative; z-index:2;}
+  #contacto .eyebrow{color:var(--brass-light);}
+  #contacto .eyebrow::before{color:var(--brass-light);}
+  #contacto h2{color:#F6F2E9; font-size:clamp(32px,4vw,50px); max-width:640px;}
+  #contacto > .wrap > p{color:#C7BFAD; margin-top:20px; max-width:520px; font-size:16.5px;}
+
+  .contact-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:52px;
+  }
+  .contact-card{
+    background:rgba(246,242,233,0.04);
+    border:1px solid rgba(217,185,139,0.25);
+    border-radius:6px;
+    padding:32px;
+    transition:all .3s ease;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .contact-card:hover{
+    background:rgba(246,242,233,0.07);
+    border-color:var(--brass);
+    transform:translateY(-4px);
+  }
+  .contact-icon{
+    width:46px; height:46px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(217,185,139,0.12);
+    border:1px solid rgba(217,185,139,0.35);
+  }
+  .contact-icon svg{width:21px; height:21px; color:var(--brass-light);}
+  .contact-card h3{color:#F6F2E9; font-size:19px;}
+  .contact-card p{color:#B7AF9E; font-size:14px;}
+  .contact-card .cc-value{
+    font-family:'JetBrains Mono',monospace; color:var(--brass-light); font-size:13.5px;
+    word-break:break-word;
+  }
+  .contact-card .go{
+    margin-top:auto; font-size:13px; color:#F6F2E9; display:flex; align-items:center; gap:6px;
+    font-weight:500;
+  }
+  .contact-card .go svg{width:14px; height:14px; transition:transform .25s ease;}
+  .contact-card:hover .go svg{transform:translateX(4px);}
+
+  .contact-foot{
+    margin-top:60px; padding-top:32px; border-top:1px solid rgba(237,231,218,0.14);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;
+    font-size:13px; color:#8B8474;
+  }
+
+  /* ---------- FLOATING WHATSAPP ---------- */
+  .wa-float{
+    position:fixed; right:26px; bottom:26px; z-index:900;
+    width:58px; height:58px; border-radius:50%;
+    background:var(--navy);
+    border:1px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 16px 36px -10px rgba(19,30,41,0.5);
+    transition:transform .3s ease, background .3s ease;
+  }
+  .wa-float:hover{transform:translateY(-4px) scale(1.05); background:var(--brass-deep);}
+  .wa-float svg{width:26px; height:26px; color:#F3EFE6;}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1; transform:translateY(0);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--bg); padding:36px 0; border-top:1px solid var(--line);
+  }
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  footer p{font-size:12.5px; color:var(--slate);}
+  .footer-brand{display:flex; align-items:center; gap:12px;}
+  .footer-logo{width:22px; height:22px; object-fit:contain; opacity:0.85;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1024px){
+    .hero .wrap{grid-template-columns:1fr; gap:60px;}
+    .mock-stage{min-height:340px;}
+    #quien-soy .wrap{grid-template-columns:1fr; gap:44px;}
+    .profile-card{position:static;}
+    .grid-catalog{grid-template-columns:repeat(2,1fr);}
+    .process{grid-template-columns:repeat(2,1fr);}
+    .process-step:nth-child(2){border-right:none;}
+    .process-step{border-bottom:1px solid var(--line);}
+  }
+
+  @media (max-width:768px){
+    .nav-links{display:none;}
+    .nav-cta.desktop-only{display:none;}
+    .burger{display:flex;}
+    .mobile-panel, .scrim{display:flex;}
+    .hero{padding:150px 0 90px;}
+    .hero-stats{gap:26px;}
+    .hero-actions{flex-direction:column; align-items:stretch;}
+    .btn{justify-content:center;}
+    .grid-catalog{grid-template-columns:1fr;}
+    .filters{overflow-x:auto; flex-wrap:nowrap; padding-bottom:6px; -webkit-overflow-scrolling:touch;}
+    .filter-btn{flex-shrink:0;}
+    .process{grid-template-columns:1fr;}
+    .process-step{border-right:none;}
+    .contact-grid{grid-template-columns:1fr;}
+    .section-pad{padding:80px 0;}
+    #quien-soy{padding:80px 0;}
+    #contacto{padding:90px 0;}
+    .float-card{display:none;}
+    footer .wrap{flex-direction:column; text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <nav class="wrap">
+    <a href="#inicio" class="brand">
+      <img src="js2-icon-dark.png" alt="Juan Snate" class="brand-mark-img">
+      <span class="brand-text">
+        <strong>Ing. Juan Snate</strong>
+        <span>Desarrollo Web</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#inicio" class="nav-link">Inicio</a>
+      <a href="#catalogo" class="nav-link">Catálogo</a>
+      <a href="#quien-soy" class="nav-link">Quién soy</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+    </div>
+    <a class="nav-cta desktop-only" href="https://wa.me/573245096148?text=Hola%20Juan%2C%20quiero%20cotizar%20una%20p%C3%A1gina%20web" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.4a.6.6 0 0 0 0-.5c-.1-.1-.7-1.6-.9-2.2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 6 9.6a5.9 5.9 0 0 0 1.3 3.2 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.1 4.1 0 0 0 1.9.1 3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2z"/></svg>
+      Escríbeme
+    </a>
+    <button class="burger" id="burger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<div class="scrim" id="scrim"></div>
+<div class="mobile-panel" id="mobilePanel">
+  <img src="js2-icon-light.png" alt="Juan Snate" class="mobile-brand-img">
+  <a href="#inicio" class="nav-link">Inicio</a>
+  <a href="#catalogo" class="nav-link">Catálogo</a>
+  <a href="#quien-soy" class="nav-link">Quién soy</a>
+  <a href="#contacto" class="nav-link">Contacto</a>
+  <a class="nav-cta" href="https://wa.me/573245096148?text=Hola%20Juan%2C%20quiero%20cotizar%20una%20p%C3%A1gina%20web" target="_blank" rel="noopener">Escríbeme por WhatsApp</a>
+</div>
+
+<!-- HERO -->
+<section id="inicio" class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow hero-anim" style="animation-delay:.05s">Diseño &amp; desarrollo web</span>
+      <h1 class="hero-anim" style="animation-delay:.15s">Tu negocio merece una página web <em>que sí vende.</em></h1>
+      <p class="lead hero-anim" style="animation-delay:.28s">Diseño y construyo sitios web profesionales, rápidos y adaptados a cualquier dispositivo — pensados para mostrar tu negocio de la mejor forma y convertir visitas en clientes.</p>
+      <div class="hero-actions hero-anim" style="animation-delay:.4s">
+        <a class="btn btn-primary" href="https://wa.me/573245096148?text=Hola%20Juan%2C%20quiero%20cotizar%20una%20p%C3%A1gina%20web" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.4a.6.6 0 0 0 0-.5c-.1-.1-.7-1.6-.9-2.2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 6 9.6a5.9 5.9 0 0 0 1.3 3.2 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.1 4.1 0 0 0 1.9.1 3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2z"/></svg>
+          Cotizar mi página por WhatsApp
+        </a>
+        <a class="btn btn-ghost" href="#catalogo">Ver catálogo de proyectos</a>
+      </div>
+      <div class="hero-stats hero-anim" style="animation-delay:.52s">
+        <div><strong data-count="4">0</strong><span>Tipos de sitios web</span></div>
+        <div><strong data-count="100" data-suffix="%">0</strong><span>Adaptado a móviles</span></div>
+        <div><strong>1–2</strong><span>Semanas de entrega*</span></div>
+      </div>
+    </div>
+
+    <div class="mock-stage hero-anim" style="animation-delay:.3s">
+      <div class="float-card a"><span class="float-dot"></span> Sitio 100% responsive</div>
+      <div class="mock-float">
+        <div class="mock-window" id="mockWindow">
+          <div class="mock-bar">
+            <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+            <div class="mock-url">tunegocio.com</div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-hero-block"></div>
+            <div class="mock-lines"><span></span><span></span><span></span></div>
+            <div class="mock-grid"><div></div><div></div><div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="float-card b"><span class="float-dot"></span> Entrega rápida</div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>HTML5</span><span>·</span><span>CSS3</span><span>·</span><span>JavaScript</span><span>·</span><span>Diseño responsive</span><span>·</span><span>UX / UI</span><span>·</span><span>Tiendas online</span><span>·</span><span>Sitios corporativos</span><span>·</span><span>Landing pages</span><span>·</span>
+    <span>HTML5</span><span>·</span><span>CSS3</span><span>·</span><span>JavaScript</span><span>·</span><span>Diseño responsive</span><span>·</span><span>UX / UI</span><span>·</span><span>Tiendas online</span><span>·</span><span>Sitios corporativos</span><span>·</span><span>Landing pages</span><span>·</span>
+  </div>
+</div>
+
+<!-- CATALOGO -->
+<section id="catalogo" class="section-pad">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Catálogo</span>
+      <h2>Un tipo de sitio para cada objetivo</h2>
+      <p>Cada proyecto se organiza según lo que tu negocio necesita mostrar o vender. Filtra por categoría para ver ejemplos del tipo de estructura, secciones y funciones que puedo construir para ti.</p>
+    </div>
+
+    <div class="filters reveal">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="real">Proyectos reales</button>
+      <button class="filter-btn" data-filter="tienda">Tiendas online</button>
+      <button class="filter-btn" data-filter="corporativo">Sitios corporativos</button>
+      <button class="filter-btn" data-filter="landing">Landing pages</button>
+      <button class="filter-btn" data-filter="portafolio">Portafolios &amp; blogs</button>
+    </div>
+
+    <div class="grid-catalog" id="catalogGrid">
+
+      <a class="card cat-real is-real" data-cat="real" href="https://odemcontabilidad.netlify.app/" target="_blank" rel="noopener">
+        <div class="card-media">
+          <span class="real-badge">Proyecto real ↗</span>
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">odemcontabilidad.netlify.app</div></div>
+            <div class="mock-body">
+              <div class="mock-hero-block"></div>
+              <div class="mock-lines"><span></span><span></span><span></span></div>
+              <div class="mock-grid"><div></div><div></div><div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Sitio corporativo · en línea</span>
+          <h3>ODEM Contabilidad</h3>
+          <p>Sitio para un Contador Público en Sincelejo: servicios tributarios, proceso de trabajo, preguntas frecuentes y formulario de contacto.</p>
+          <div class="card-feats"><span>Servicios</span><span>FAQ</span><span>Formulario</span><span>WhatsApp</span></div>
+        </div>
+      </a>
+
+      <article class="card cat-tienda" data-cat="tienda">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">tienda.com</div></div>
+            <div class="mock-body"><div class="mock-grid"><div></div><div></div><div></div></div><div class="mock-lines" style="margin-top:10px;"><span></span><span></span></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Tienda online</span>
+          <h3>Catálogo de productos</h3>
+          <p>Vitrina digital con categorías, fichas de producto y galería, lista para mostrar todo tu inventario.</p>
+          <div class="card-feats"><span>Filtros</span><span>Galería</span><span>Fichas de producto</span></div>
+        </div>
+      </article>
+
+      <article class="card cat-tienda" data-cat="tienda">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">carrito.com</div></div>
+            <div class="mock-body"><div class="mock-hero-block" style="height:70px;"></div><div class="mock-lines"><span></span><span></span></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Tienda online</span>
+          <h3>Carrito y checkout</h3>
+          <p>Flujo de compra simple y claro, con carrito, resumen de pedido y confirmación por WhatsApp o correo.</p>
+          <div class="card-feats"><span>Carrito</span><span>Pedidos</span><span>Notificaciones</span></div>
+        </div>
+      </article>
+
+      <article class="card cat-tienda" data-cat="tienda">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">pagos.com</div></div>
+            <div class="mock-body"><div class="mock-grid"><div></div><div></div><div></div></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Tienda online</span>
+          <h3>Métodos de pago</h3>
+          <p>Integración con pasarelas de pago colombianas o botón directo a WhatsApp para cerrar la venta.</p>
+          <div class="card-feats"><span>PSE</span><span>Nequi</span><span>WhatsApp</span></div>
+        </div>
+      </article>
+
+      <article class="card cat-corporativo" data-cat="corporativo">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">empresa.com</div></div>
+            <div class="mock-body"><div class="mock-hero-block"></div><div class="mock-lines"><span></span><span></span><span></span></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Sitio corporativo</span>
+          <h3>Presencia institucional</h3>
+          <p>Sitio formal para tu empresa: quiénes somos, servicios, equipo y datos de contacto en un solo lugar.</p>
+          <div class="card-feats"><span>Quiénes somos</span><span>Servicios</span><span>Equipo</span></div>
+        </div>
+      </article>
+
+      <article class="card cat-corporativo" data-cat="corporativo">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">servicios.com</div></div>
+            <div class="mock-body"><div class="mock-lines"><span></span><span></span><span></span></div><div class="mock-grid" style="margin-top:10px;"><div></div><div></div><div></div></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Sitio corporativo</span>
+          <h3>Página de servicios</h3>
+          <p>Presenta cada servicio con claridad, precios de referencia y llamado a la acción para cotizar.</p>
+          <div class="card-feats"><span>Planes</span><span>Cotización</span><span>FAQ</span></div>
+        </div>
+      </article>
+
+      <article class="card cat-landing" data-cat="landing">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">campaña.com</div></div>
+            <div class="mock-body"><div class="mock-hero-block" style="height:90px;"></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Landing page</span>
+          <h3>Página de campaña</h3>
+          <p>Una sola página enfocada en un objetivo: vender un producto, promocionar un evento o captar clientes.</p>
+          <div class="card-feats"><span>Un objetivo</span><span>Alta conversión</span></div>
+        </div>
+      </article>
+
+      <article class="card cat-landing" data-cat="landing">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">contacto.com</div></div>
+            <div class="mock-body"><div class="mock-lines"><span></span><span></span></div><div class="mock-hero-block" style="height:55px; margin-top:10px;"></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Landing page</span>
+          <h3>Captura de leads</h3>
+          <p>Formulario simple para recolectar nombre, teléfono e interés — ideal para campañas de publicidad.</p>
+          <div class="card-feats"><span>Formulario</span><span>WhatsApp directo</span></div>
+        </div>
+      </article>
+
+      <article class="card cat-portafolio" data-cat="portafolio">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">portafolio.com</div></div>
+            <div class="mock-body"><div class="mock-grid"><div></div><div></div><div></div></div><div class="mock-lines" style="margin-top:10px;"><span></span></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Portafolio &amp; blog</span>
+          <h3>Portafolio creativo</h3>
+          <p>Muestra tus proyectos, fotografías o trabajos con una galería limpia y enfocada en el contenido.</p>
+          <div class="card-feats"><span>Galería</span><span>Proyectos</span></div>
+        </div>
+      </article>
+
+      <article class="card cat-portafolio" data-cat="portafolio">
+        <div class="card-media">
+          <div class="mock-window">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">blog.com</div></div>
+            <div class="mock-body"><div class="mock-lines"><span></span><span></span><span></span></div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Portafolio &amp; blog</span>
+          <h3>Blog personal o de marca</h3>
+          <p>Espacio para publicar artículos, novedades o contenido que posicione tu marca a largo plazo.</p>
+          <div class="card-feats"><span>Artículos</span><span>SEO básico</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="process">
+  <div class="process-step reveal">
+    <span class="process-num">01 — Conversamos</span>
+    <h4>Cuéntame tu idea</h4>
+    <p>Hablamos por WhatsApp sobre tu negocio, qué necesitas mostrar y qué tipo de sitio te conviene.</p>
+  </div>
+  <div class="process-step reveal">
+    <span class="process-num">02 — Propuesta</span>
+    <h4>Diseño y cotización</h4>
+    <p>Te muestro una propuesta de diseño y un precio claro antes de empezar a construir.</p>
+  </div>
+  <div class="process-step reveal">
+    <span class="process-num">03 — Construcción</span>
+    <h4>Desarrollo el sitio</h4>
+    <p>Construyo tu página con HTML, CSS y JS, optimizada y adaptada a cualquier dispositivo.</p>
+  </div>
+  <div class="process-step reveal">
+    <span class="process-num">04 — Entrega</span>
+    <h4>Publicación y ajustes</h4>
+    <p>Publicamos el sitio y hacemos los ajustes finales hasta que quede exactamente como lo necesitas.</p>
+  </div>
+</section>
+
+<!-- QUIEN SOY -->
+<section id="quien-soy">
+  <div class="wrap">
+    <div class="profile-card reveal">
+      <div class="profile-avatar"><img src="logo-icon-light.png" alt="Snate"></div>
+      <h3>Juan David Gómez Esnate</h3>
+      <span class="profile-role">Ing. Juan Snate — Desarrollo Web</span>
+      <div class="profile-line"><span>Formación</span><span>Ing. de Sistemas</span></div>
+      <div class="profile-line"><span>Universidad</span><span>CECAR, Sincelejo</span></div>
+      <div class="profile-line"><span>Enfoque</span><span>Sitios a la medida</span></div>
+      <div class="profile-line"><span>Ubicación</span><span>Colombia</span></div>
+    </div>
+
+    <div class="bio reveal">
+      <span class="eyebrow">Quién soy</span>
+      <p class="lede" style="margin-top:14px;">Soy Juan David, estudiante de Ingeniería de Sistemas en la Corporación Universitaria del Caribe (CECAR), y diseño páginas web para negocios que quieren verse tan bien en internet como en la vida real.</p>
+      <p>Combino lo que aprendo en la universidad — lógica, estructura y buenas prácticas de desarrollo — con un ojo cuidadoso para el diseño, para entregar sitios web que no solo se ven profesionales, sino que también son rápidos, claros y fáciles de usar desde cualquier dispositivo.</p>
+      <p>Trabajo directamente contigo desde la primera conversación hasta la publicación final del sitio, con comunicación clara y entregas ordenadas — sin intermediarios ni procesos complicados.</p>
+
+      <div class="skills-block">
+        <h4>Con qué trabajo</h4>
+        <div class="skill-tags">
+          <span>HTML5</span>
+          <span>CSS3</span>
+          <span>JavaScript</span>
+          <span>Diseño responsive</span>
+          <span>UX / UI</span>
+          <span>Optimización de velocidad</span>
+          <span>Integración con WhatsApp</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="wrap">
+    <span class="eyebrow">Contacto</span>
+    <h2 style="margin-top:14px;">¿Listo para tener la página web de tu negocio?</h2>
+    <p>Escríbeme y hablamos sobre lo que necesitas. Te respondo rápido y sin compromiso.</p>
+
+    <div class="contact-grid">
+      <a class="contact-card reveal" href="https://wa.me/573245096148?text=Hola%20Juan%2C%20quiero%20cotizar%20una%20p%C3%A1gina%20web" target="_blank" rel="noopener">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.4a.6.6 0 0 0 0-.5c-.1-.1-.7-1.6-.9-2.2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 6 9.6a5.9 5.9 0 0 0 1.3 3.2 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.1 4.1 0 0 0 1.9.1 3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2z"/></svg>
+        </div>
+        <div>
+          <h3>WhatsApp</h3>
+          <p>La forma más rápida de contarme tu idea.</p>
+          <div class="cc-value">+57 324 509 6148</div>
+        </div>
+        <span class="go">Abrir chat <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <a class="contact-card reveal" href="mailto:gomezesnate@gmail.com?subject=Cotizaci%C3%B3n%20p%C3%A1gina%20web">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </div>
+        <div>
+          <h3>Correo</h3>
+          <p>Para propuestas más detalladas o formales.</p>
+          <div class="cc-value">gomezesnate@gmail.com</div>
+        </div>
+        <span class="go">Escribir correo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+
+    <div class="contact-foot">
+      <span>Ing. Juan Snate — Sincelejo, Colombia</span>
+      <span>Disponible para nuevos proyectos</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-brand">
+      <img src="js2-icon-dark.png" alt="Juan Snate" class="footer-logo">
+      <p>© <span id="year"></span> Ing. Juan Snate. Todos los derechos reservados.</p>
+    </div>
+    <p>Juan David Gómez Esnate — Ing. de Sistemas, CECAR</p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/573245096148?text=Hola%20Juan%2C%20quiero%20cotizar%20una%20p%C3%A1gina%20web" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.4a.6.6 0 0 0 0-.5c-.1-.1-.7-1.6-.9-2.2s-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4A3.4 3.4 0 0 0 6 9.6a5.9 5.9 0 0 0 1.3 3.2 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.1 4.1 0 0 0 1.9.1 3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2z"/></svg>
+</a>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Header shrink + active link on scroll
+  const header = document.getElementById('siteHeader');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section[id]');
+
+  function onScroll(){
+    header.classList.toggle('scrolled', window.scrollY > 30);
+
+    let current = '';
+    sections.forEach(sec => {
+      const top = sec.offsetTop - 120;
+      if(window.scrollY >= top) current = sec.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const panel = document.getElementById('mobilePanel');
+  const scrim = document.getElementById('scrim');
+  function closeMenu(){
+    burger.classList.remove('open');
+    panel.classList.remove('open');
+    scrim.classList.remove('open');
+  }
+  burger.addEventListener('click', () => {
+    const open = panel.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    scrim.classList.toggle('open', open);
+  });
+  scrim.addEventListener('click', closeMenu);
+  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  // Catalog filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(card => {
+        const show = (f === 'all' || card.dataset.cat === f);
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  // Scroll reveal (with light stagger for grouped cards)
+  const revealEls = document.querySelectorAll('.reveal, .card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const delay = entry.target.classList.contains('card')
+          ? (Array.from(cards).indexOf(entry.target) % 3) * 90
+          : 0;
+        entry.target.style.transitionDelay = delay + 'ms';
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el => io.observe(el));
+
+  // Count-up for hero stats
+  const counters = document.querySelectorAll('[data-count]');
+  const countIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 900;
+        const start = performance.now();
+        function tick(now){
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(eased * target) + suffix;
+          if(p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        countIO.unobserve(el);
+      }
+    });
+  }, {threshold:0.6});
+  counters.forEach(el => countIO.observe(el));
+
+  // Hero mockup parallax tilt
+  const stage = document.querySelector('.mock-stage');
+  const mockWindow = document.getElementById('mockWindow');
+  if(stage && mockWindow && window.matchMedia('(pointer:fine)').matches){
+    stage.addEventListener('mousemove', (e) => {
+      const rect = stage.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      mockWindow.style.transform = `rotateY(${-10 + x * 14}deg) rotateX(${4 - y * 10}deg) rotate(-1deg) translateY(${y * -8}px)`;
+    });
+    stage.addEventListener('mouseleave', () => {
+      mockWindow.style.transform = 'rotateY(-10deg) rotateX(4deg) rotate(-1deg)';
+    });
+  }
+</script>
+</body>
+</html>
